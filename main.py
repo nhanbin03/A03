@@ -8,18 +8,24 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 import streamlit as st
 
-# Step 1: Preprocessing Functions
+# Step 1: Loading Vietnamese stop words
+def load_stopwords():
+    with open("vietnamese-stopwords.txt", "r", encoding="utf-8") as file:
+        stopwords = file.read().split("\n")
+    return set(stopwords)
+
+# Step 2: Preprocessing Functions
 def preprocess_text(text):
     # Convert to lowercase and normalize diacritics
     text = unidecode(text.lower())
     # Tokenize using Underthesea
     tokens = word_tokenize(text, format="text")
     # Remove Vietnamese stop words
-    vietnamese_stopwords = set(["và", "là", "của", "các", "để", "với", "nhưng"])
+    vietnamese_stopwords = load_stopwords()
     tokens = [word for word in tokens.split() if word not in vietnamese_stopwords]
     return " ".join(tokens)
 
-# Step 2: Load and Preprocess Documents
+# Step 3: Load and Preprocess Documents
 def load_json_data(folder_path):
     documents = []
     titles = []
@@ -45,7 +51,7 @@ def load_json_data(folder_path):
     return documents, titles, contents, dates
 
 
-# Step 3: Create TF-IDF Index
+# Step 4: Create TF-IDF Index
 def create_index(documents):
     vectorizer = TfidfVectorizer()
     tfidf_matrix = vectorizer.fit_transform(documents)
@@ -54,7 +60,7 @@ def create_index(documents):
         pickle.dump((vectorizer, tfidf_matrix), f)
     print("Index created and saved successfully.")
 
-# Step 4: Load the Index
+# Step 5: Load the Index
 def load_index(documents):
     # Check if the index file exists
     if not os.path.exists("tfidf_matrix.pkl"):
@@ -64,7 +70,7 @@ def load_index(documents):
         vectorizer, tfidf_matrix = pickle.load(f)
     return vectorizer, tfidf_matrix
 
-# Step 5: Search Function
+# Step 6: Search Function
 def search(query, vectorizer, tfidf_matrix, titles, contents, dates):
     query = preprocess_text(query)
     query_vector = vectorizer.transform([query])
@@ -94,7 +100,7 @@ def main():
 
     # Step 1: Load data and create index only once when the app starts
     if 'vectorizer' not in st.session_state:
-        with st.spinner("Loading data and creating index..."):
+        with st.spinner("Loading data..."):
             folder_path = "./data"
             if os.path.exists(folder_path):
                 documents, titles, contents, dates = load_json_data(folder_path)
@@ -138,10 +144,10 @@ def main():
 
             if results:
                 # Apply sorting based on user's choice
-                if sort_option == "Sort by: Relevance":
+                if sort_option == "Sort by: Newest":
                     # Sort results by date (assuming date format is DD/MM/YYYY HH:MM GMT+7)
                     results.sort(key=lambda x: x["date"], reverse=True)
-                elif sort_option == "Sort by: Newest":
+                elif sort_option == "Sort by: Relevance":
                     # Sort by score (default sorting in the `search` function)
                     results.sort(key=lambda x: x["score"], reverse=True)
 
