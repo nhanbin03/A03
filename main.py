@@ -96,7 +96,7 @@ def search(query, vectorizer, tfidf_matrix, titles, contents, dates):
 
 # Streamlit Interface
 def main():
-    st.title("Vietnamese Text Search Engine")
+    st.title("Tuoitre.vn Text Search Engine")
 
     # Step 1: Load data and create index only once when the app starts
     if 'vectorizer' not in st.session_state:
@@ -121,8 +121,7 @@ def main():
         st.success("Data loaded successfully!")
 
     # Step 2: Search functionality
-    st.header("Search")
-    query = st.text_input("Enter your search query:")
+    query = st.text_input("Enter your search query:", label_visibility="collapsed", placeholder="Enter your search query here...")
 
     # Dropdown to select sorting method
     sort_option = st.selectbox(
