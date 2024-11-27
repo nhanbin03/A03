@@ -7,7 +7,7 @@ chẳng
 chăng
 chỉ
 còn
-còn lại
+còn_lại
 của
 đang
 đã
@@ -17,7 +17,7 @@ của
 đi
 từ
 dù
-dù sao
+dù_sao
 em
 hả
 hay
@@ -27,7 +27,7 @@ hoặc
 khi
 kia
 mà
-mà không
+mà_không
 mỗi
 mới
 nơi
@@ -37,17 +37,17 @@ mình
 nào
 nhờ
 nói
-nói chung
+nói_chung
 không
-khi nào
+khi_nào
 sao
 tại
-sao mà
+sao_mà
 sắp
 sẽ
 ta
 thật
-tất cả
+tất_cả
 thì
 tớ
 tới
@@ -59,13 +59,13 @@ về
 với
 vậy
 vừa
-vả lại
+vả_lại
 và
 vẫn
 vậy
-vậy mà
+vậy_mà
 rằng
-rằng là
+rằng_là
 tự
 này
 nào
